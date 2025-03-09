@@ -5,6 +5,7 @@ from app.utils import validate_bbox, create_error_response, create_success_respo
 
 geo_object_bp = Blueprint('geo_object', __name__)
 
+
 @geo_object_bp.route('/simulation/<int:simulation_id>', methods=['GET'])
 def get_geo_objects_by_simulation(simulation_id):
     """Get geographic objects for a specific simulation"""
@@ -17,21 +18,22 @@ def get_geo_objects_by_simulation(simulation_id):
             float(request.args.get('maxx')),
             float(request.args.get('maxy'))
         ]
-        
+
         # Validate the bounding box
         if not validate_bbox(bbox):
             return create_error_response("Invalid bounding box parameters", 400)
-    
+
     try:
         # Get geo objects using the service
         geojson = GeoObjectService.get_geo_objects_for_simulation(simulation_id, bbox)
-        
+
         if not geojson:
             return create_error_response("Simulation not found", 404)
-        
+
         return create_success_response(geojson)
     except Exception as e:
         return create_error_response(f"Error retrieving geographic objects: {str(e)}", 500)
+
 
 @geo_object_bp.route('/<int:geo_object_id>', methods=['GET'])
 def get_geo_object(geo_object_id):
@@ -39,7 +41,7 @@ def get_geo_object(geo_object_id):
     geo_object = GeoObject.get_by_id(geo_object_id)
     if not geo_object:
         return jsonify({'error': 'Geographic object not found'}), 404
-    
+
     # Format as GeoJSON Feature
     feature = {
         "type": "Feature",
@@ -51,6 +53,5 @@ def get_geo_object(geo_object_id):
             "description": geo_object['description']
         }
     }
-    
-    return jsonify(feature)
 
+    return jsonify(feature)
