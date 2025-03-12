@@ -8,14 +8,11 @@ db = DBManager()
 def create_app(config_class=Config):
     app = Flask(__name__, static_folder='../static', template_folder='../templates')
     app.config.from_object(config_class)
-    
-    # Инициализация CORS
+
     CORS(app)
-    
-    # Инициализация базы данных
+
     db.init_app(app)
-    
-    # Регистрация маршрутов
+
     from app.routes.city_routes import city_bp
     from app.routes.simulation_routes import simulation_bp
     from app.routes.geo_object_routes import geo_object_bp
@@ -25,4 +22,3 @@ def create_app(config_class=Config):
     app.register_blueprint(geo_object_bp, url_prefix='/api/geo-objects')
     
     return app
-

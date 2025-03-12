@@ -1,9 +1,8 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, Response
 from app.models.city import City
 from app.services.city_service import CityService
 
 city_bp = Blueprint('city', __name__)
-
 
 @city_bp.route('/', methods=['GET'])
 def get_cities():
