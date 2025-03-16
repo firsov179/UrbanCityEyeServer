@@ -4,13 +4,13 @@ class City:
     @staticmethod
     def get_all():
         """Get all cities"""
-        query = "SELECT id, name FROM City"
+        query = "SELECT id, name, name_ru FROM City"
         return db.execute_query(query)
     
     @staticmethod
     def get_by_id(city_id):
         """Get city by ID"""
-        query = "SELECT id, name FROM City WHERE id = %s"
+        query = "SELECT * FROM City WHERE id = %s"
         return db.execute_query(query, (city_id,), fetchone=True)
     
     @staticmethod
