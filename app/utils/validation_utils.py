@@ -89,6 +89,34 @@ def validate_year(year: Union[str, int]) -> bool:
     except (ValueError, TypeError):
         return False
 
+def validate_bbox(bbox: List[float]) -> bool:
+    """
+    Validate a bounding box.
+
+    Args:
+        bbox: [minx, miny, maxx, maxy]
+
+    Returns:
+        True if valid, False otherwise
+    """
+    if not isinstance(bbox, list) or len(bbox) != 4:
+        return False
+
+    try:
+        minx, miny, maxx, maxy = [float(coord) for coord in bbox]
+
+        # Basic validation checks
+        if minx > maxx or miny > maxy:
+            return False
+
+        # For longitude/latitude bounds
+        if minx < -180 or maxx > 180 or miny < -90 or maxy > 90:
+            return False
+
+        return True
+    except (ValueError, TypeError):
+        return False
+
 def sanitize_string(input_str: Optional[str], max_length: int = 255) -> str:
     """
     Sanitize a string input by removing potentially dangerous characters.

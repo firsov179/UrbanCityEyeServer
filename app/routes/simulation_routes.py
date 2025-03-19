@@ -23,10 +23,10 @@ def get_years_by_city(city_id):
     years = Simulation.get_years_by_city(city_id)
     return jsonify(years)
 
-@simulation_bp.route('/city/<int:city_id>/year/<int:year>', methods=['GET'])
-def get_simulation_by_city_year(city_id, year):
+@simulation_bp.route('/city/<int:city_id>/year/<int:year>/mode/<int:mode_id>', methods=['GET'])
+def get_simulation_by_city_year(city_id, year, mode_id):
     """Get simulation by city and year"""
-    simulation = Simulation.get_by_city_year(city_id, year)
+    simulation = Simulation.get_by_city_year(city_id, year, mode_id)
     if not simulation:
         return jsonify({'error': 'Simulation not found'}), 404
     return jsonify(simulation)

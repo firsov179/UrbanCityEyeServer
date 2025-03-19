@@ -6,7 +6,6 @@ class GeoObject:
         """Get geographic objects for a specific simulation with optional bounding box"""
         params = [simulation_id]
         
-        # Base query
         query = """
             SELECT g.id, g.name, g.role, g.description, 
                    ST_AsGeoJSON(g.location) as geometry
@@ -15,7 +14,6 @@ class GeoObject:
             WHERE gs.simulation_id = %s
         """
         
-        # Add bounding box filter if provided
         if bbox:
             minx, miny, maxx, maxy = bbox
             query += " AND ST_Intersects(g.location, ST_MakeEnvelope(%s, %s, %s, %s, 4326))"

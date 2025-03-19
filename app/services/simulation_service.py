@@ -27,18 +27,21 @@ class SimulationService:
         
         # Get all available years
         years = Simulation.get_years_by_city(city_id)
+        modes = Simulation.get_modes()
         
         # Create a timeline with additional metadata
         timeline = []
         for year in years:
-            simulation = Simulation.get_by_city_year(city_id, year)
-            if simulation:
-                timeline_entry = {
-                    'year': year,
-                    'simulation_id': simulation['id'],
-                    # Add more metadata here as needed
-                }
-                timeline.append(timeline_entry)
+            for mode in modes:
+                simulation = Simulation.get_by_city_year(city_id, year, mode)
+                if simulation:
+                    timeline_entry = {
+                        'year': year,
+                        'simulation_id': simulation['id'],
+                        # Add more metadata here as needed
+                    }
+                    timeline.append(timeline_entry)
+                    break
         
         return {
             'city': city,

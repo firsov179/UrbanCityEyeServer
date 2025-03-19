@@ -25,16 +25,16 @@ class Simulation:
         return db.execute_query(query, (simulation_id,), fetchone=True)
     
     @staticmethod
-    def get_by_city_year(city_id, year):
+    def get_by_city_year(city_id, year, mode_id):
         """Get simulation by city and year"""
         query = """
             SELECT s.id, s.year, s.city_id, s.mode_id, c.name as city_name, m.name as mode_name
             FROM Simulation s
             JOIN City c ON s.city_id = c.id
             JOIN Mode m ON s.mode_id = m.id
-            WHERE s.city_id = %s AND s.year = %s
+            WHERE s.city_id = %s AND s.year = %s AND s.mode_id = %s
         """
-        return db.execute_query(query, (city_id, year), fetchone=True)
+        return db.execute_query(query, (city_id, year, mode_id), fetchone=True)
     
     @staticmethod
     def get_years_by_city(city_id):
@@ -47,4 +47,15 @@ class Simulation:
         """
         result = db.execute_query(query, (city_id,))
         return [record['year'] for record in result]
+
+    @staticmethod
+    def get_modes():
+        """Get all available modes"""
+        query = """
+            SELECT id
+            FROM Mode
+        """
+        result = db.execute_query(query, ())
+        return [record['id'] for record in result]
+
 

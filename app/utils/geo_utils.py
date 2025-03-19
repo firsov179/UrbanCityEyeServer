@@ -72,34 +72,6 @@ def convert_coordinates(coords: List[float], from_srid: int, to_srid: int) -> Li
         # This is a fallback that just returns the original coordinates
         return coords
 
-def validate_bbox(bbox: List[float]) -> bool:
-    """
-    Validate a bounding box.
-    
-    Args:
-        bbox: [minx, miny, maxx, maxy]
-        
-    Returns:
-        True if valid, False otherwise
-    """
-    if not isinstance(bbox, list) or len(bbox) != 4:
-        return False
-    
-    try:
-        minx, miny, maxx, maxy = [float(coord) for coord in bbox]
-        
-        # Basic validation checks
-        if minx > maxx or miny > maxy:
-            return False
-            
-        # For longitude/latitude bounds
-        if minx < -180 or maxx > 180 or miny < -90 or maxy > 90:
-            return False
-            
-        return True
-    except (ValueError, TypeError):
-        return False
-
 def format_as_geojson(features: List[Dict]) -> Dict:
     """
     Format a list of features as a GeoJSON FeatureCollection.
