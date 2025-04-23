@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request
 from app.models import GeoObject
 from app.services import GeoObjectService
 from app.utils import validate_bbox, create_error_response, create_success_response
+import json
 
 geo_object_bp = Blueprint('geo_object', __name__)
 
